@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "SICache.h"
 #import "SIConfigCenter.h"
 
 FOUNDATION_EXPORT double SIUtilsVersionNumber;

@@ -1,15 +1,28 @@
 PODS:
-  - SIUtils (0.1.0)
+  - SAMKeychain (1.5.3)
+  - SIUtils (0.1.4):
+    - SAMKeychain
+    - YYKit
+  - YYKit (1.0.9):
+    - YYKit/no-arc (= 1.0.9)
+  - YYKit/no-arc (1.0.9)
 
 DEPENDENCIES:
   - SIUtils (from `../`)
+
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - SAMKeychain
+    - YYKit
 
 EXTERNAL SOURCES:
   SIUtils:
     :path: "../"
 
 SPEC CHECKSUMS:
-  SIUtils: c2f5f7ae27dfc0d2ba265df73917771a7104ed3c
+  SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
+  SIUtils: ffb5bdd013987bb9f976a0a11d742421815b84da
+  YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: fc640e04bbf879faa449aaf421c3ff85d318802c
 

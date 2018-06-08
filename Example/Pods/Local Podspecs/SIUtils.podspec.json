@@ -1,6 +1,6 @@
 {
   "name": "SIUtils",
-  "version": "0.1.0",
+  "version": "0.1.4",
   "summary": "SIUtils.",
   "description": "SIUtils of Super Id.",
   "homepage": "http://superid.cn:81/iOS/SIUtils",
@@ -13,16 +13,22 @@
   },
   "source": {
     "git": "git@git.superid.cn:iOS/SIUtils.git",
-    "tag": "0.1.0"
+    "tag": "0.1.4"
+  },
+  "pod_target_xcconfig": {
+    "DEFINES_MODULE": "YES"
   },
   "platforms": {
     "ios": "9.0"
   },
-  "public_header_files": "SIUtils/Classes/*/*.h",
+  "public_header_files": "SIUtils/Classes/**/*.h",
   "source_files": "SIUtils/Classes/**/*",
-  "ios": {
-    "resource_bundles": {
-      "SIUtils": "SIUtils/Assets/*.*"
-    }
+  "dependencies": {
+    "YYKit": [
+
+    ],
+    "SAMKeychain": [
+
+    ]
   }
 }
