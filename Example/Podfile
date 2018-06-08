@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'SIUtils_Example' do
+  pod 'SIUtils', :path => '../'
+
+  target 'SIUtils_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
