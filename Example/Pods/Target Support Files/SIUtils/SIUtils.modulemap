@@ -1,0 +1,6 @@
+framework module SIUtils {
+  umbrella header "SIUtils-umbrella.h"
+
+  export *
+  module * { export * }
+}

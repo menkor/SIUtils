@@ -1,0 +1,28 @@
+{
+  "name": "SIUtils",
+  "version": "0.1.0",
+  "summary": "SIUtils.",
+  "description": "SIUtils of Super Id.",
+  "homepage": "http://superid.cn:81/iOS/SIUtils",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "ungacy": "yetao@superid.cn"
+  },
+  "source": {
+    "git": "git@git.superid.cn:iOS/SIUtils.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "9.0"
+  },
+  "public_header_files": "SIUtils/Classes/*/*.h",
+  "source_files": "SIUtils/Classes/**/*",
+  "ios": {
+    "resource_bundles": {
+      "SIUtils": "SIUtils/Assets/*.*"
+    }
+  }
+}
