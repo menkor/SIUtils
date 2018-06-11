@@ -1,6 +1,22 @@
 PODS:
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
   - SAMKeychain (1.5.3)
-  - SIUtils (0.1.5):
+  - SIUtils (0.1.6):
+    - AFNetworking
     - SAMKeychain
     - YYKit
   - YYKit (1.0.9):
@@ -12,6 +28,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
+    - AFNetworking
     - SAMKeychain
     - YYKit
 
@@ -20,8 +37,9 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
-  SIUtils: b15d99f039349eb3c7aeaf9d5176e55cfbe01511
+  SIUtils: ca456d34bb3545309287eb4868748c11f198f752
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: a3690da981a53968273d391ee8dbabdbf3e0e3de
