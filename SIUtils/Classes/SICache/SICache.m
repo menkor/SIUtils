@@ -48,7 +48,7 @@
 + (instancetype)talkingMemberCache {
     static dispatch_once_t once = 0;
     static id instance = nil;
-    
+
     dispatch_once(&once, ^{
         instance = [[self alloc] initWithName:kSICacheTalkingMemberName];
     });
