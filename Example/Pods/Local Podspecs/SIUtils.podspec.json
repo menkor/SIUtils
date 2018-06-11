@@ -1,6 +1,6 @@
 {
   "name": "SIUtils",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "summary": "SIUtils.",
   "description": "SIUtils of Super Id.",
   "homepage": "http://superid.cn:81/iOS/SIUtils",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "git@git.superid.cn:iOS/SIUtils.git",
-    "tag": "0.1.4"
+    "tag": "0.1.5"
   },
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES"

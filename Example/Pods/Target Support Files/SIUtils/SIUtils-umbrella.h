@@ -10,6 +10,7 @@
 #endif
 #endif
 
+#import "SIInputValidator.h"
 #import "SICache.h"
 #import "SIConfigCenter.h"
 
