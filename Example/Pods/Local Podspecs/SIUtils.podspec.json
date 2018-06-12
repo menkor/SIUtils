@@ -1,6 +1,6 @@
 {
   "name": "SIUtils",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "summary": "SIUtils.",
   "description": "SIUtils of Super Id.",
   "homepage": "http://superid.cn:81/iOS/SIUtils",
@@ -13,7 +13,7 @@
   },
   "source": {
     "git": "git@git.superid.cn:iOS/SIUtils.git",
-    "tag": "0.1.6"
+    "tag": "0.1.7"
   },
   "pod_target_xcconfig": {
     "DEFINES_MODULE": "YES"
@@ -28,6 +28,9 @@
 
     ],
     "SAMKeychain": [
+
+    ],
+    "YCEasyTool": [
 
     ],
     "AFNetworking": [

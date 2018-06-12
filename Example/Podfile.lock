@@ -15,10 +15,37 @@ PODS:
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - SAMKeychain (1.5.3)
-  - SIUtils (0.1.6):
+  - SIUtils (0.1.7):
     - AFNetworking
     - SAMKeychain
+    - YCEasyTool
     - YYKit
+  - YCEasyTool (0.2.4):
+    - YCEasyTool/Forever (= 0.2.4)
+    - YCEasyTool/Polling (= 0.2.4)
+    - YCEasyTool/Property (= 0.2.4)
+    - YCEasyTool/Tools (= 0.2.4)
+    - YCEasyTool/UI (= 0.2.4)
+  - YCEasyTool/Forever (0.2.4):
+    - YCEasyTool/Property
+  - YCEasyTool/Polling (0.2.4)
+  - YCEasyTool/Property (0.2.4)
+  - YCEasyTool/Tools (0.2.4)
+  - YCEasyTool/UI (0.2.4):
+    - YCEasyTool/UI/CollectionView (= 0.2.4)
+    - YCEasyTool/UI/Grid (= 0.2.4)
+    - YCEasyTool/UI/PopMenu (= 0.2.4)
+    - YCEasyTool/UI/Segment (= 0.2.4)
+    - YCEasyTool/UI/TabBarController (= 0.2.4)
+    - YCEasyTool/UI/TreeMenu (= 0.2.4)
+  - YCEasyTool/UI/CollectionView (0.2.4)
+  - YCEasyTool/UI/Grid (0.2.4):
+    - YCEasyTool/Tools
+    - YCEasyTool/UI/CollectionView
+  - YCEasyTool/UI/PopMenu (0.2.4)
+  - YCEasyTool/UI/Segment (0.2.4)
+  - YCEasyTool/UI/TabBarController (0.2.4)
+  - YCEasyTool/UI/TreeMenu (0.2.4)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
   - YYKit/no-arc (1.0.9)
@@ -30,6 +57,7 @@ SPEC REPOS:
   https://github.com/CocoaPods/Specs.git:
     - AFNetworking
     - SAMKeychain
+    - YCEasyTool
     - YYKit
 
 EXTERNAL SOURCES:
@@ -39,7 +67,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
-  SIUtils: ca456d34bb3545309287eb4868748c11f198f752
+  SIUtils: 4e913bf2768dc1a7d342b417d97312d338817256
+  YCEasyTool: b2c63ded39fa586b129682abf03519c2849bd8b4
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
 PODFILE CHECKSUM: a3690da981a53968273d391ee8dbabdbf3e0e3de
