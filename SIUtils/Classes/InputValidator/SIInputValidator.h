@@ -17,6 +17,7 @@ typedef NS_ENUM(NSUInteger, SIInputValidatorType) {
     SIInputValidatorTypeEmail,
     SIInputValidatorTypeID,
     SIInputValidatorTypePassword,
+    SIInputValidatorTypePassport,
 };
 
 @interface NSString (InputCheck)
