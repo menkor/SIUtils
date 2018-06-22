@@ -1,9 +1,0 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking" "${PODS_CONFIGURATION_BUILD_DIR}/SAMKeychain" "${PODS_CONFIGURATION_BUILD_DIR}/SIUtils" "${PODS_CONFIGURATION_BUILD_DIR}/YCEasyTool" "${PODS_CONFIGURATION_BUILD_DIR}/YYKit"
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/AFNetworking/AFNetworking.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SAMKeychain/SAMKeychain.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SIUtils/SIUtils.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/YCEasyTool/YCEasyTool.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/YYKit/YYKit.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -ObjC -framework "AFNetworking" -framework "SAMKeychain" -framework "SIUtils" -framework "YCEasyTool" -framework "YYKit"
-PODS_BUILD_DIR = ${BUILD_DIR}
-PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
-PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
-PODS_ROOT = ${SRCROOT}/Pods
