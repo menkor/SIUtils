@@ -15,7 +15,7 @@ PODS:
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - SAMKeychain (1.5.3)
-  - SIUtils (0.1.11):
+  - SIUtils (0.1.12):
     - AFNetworking
     - SAMKeychain
     - YCEasyTool
@@ -67,7 +67,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
-  SIUtils: 4bf24d7557469460166b6504d02de8181e776a82
+  SIUtils: ba43d32e7bc1f4f4190e3ef29a4c6c5184137277
   YCEasyTool: b2c63ded39fa586b129682abf03519c2849bd8b4
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
