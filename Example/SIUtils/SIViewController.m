@@ -7,6 +7,7 @@
 //
 
 #import "SIViewController.h"
+#import <SIUtils/SIUUID.h>
 
 @interface SIViewController ()
 
@@ -17,6 +18,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSLog(@"%@", [SIUUID uuid]);
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
