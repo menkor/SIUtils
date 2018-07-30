@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'SIUtils'
-    s.version          = '0.1.14'
+    s.version          = '0.1.15'
     s.summary          = 'SIUtils.'
     
     # This description is used to generate tags and improve search results.
@@ -27,10 +27,22 @@ Pod::Spec.new do |s|
     s.source           = { :git => 'git@git.superid.cn:iOS/SIUtils.git', :tag => s.version.to_s }
     s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
     s.ios.deployment_target = '8.0'
-    s.public_header_files = 'SIUtils/Classes/**/*.h'
-    s.source_files = 'SIUtils/Classes/**/*'
-    s.dependency 'YYKit'
-    s.dependency 'SAMKeychain'
-    s.dependency 'YCEasyTool'
-    s.dependency 'AFNetworking'
+    s.default_subspec = 'All'
+    
+    s.subspec 'UUID' do |ss|
+        ss.source_files = 'YCEasyTool/Classes/UUID/*'
+        ss.public_header_files = 'YCEasyTool/Classes/UUID/*.h'
+        ss.dependency 'SAMKeychain'
+    end
+    
+    s.subspec 'All' do |ss|
+        s.public_header_files = 'SIUtils/Classes/**/*.h'
+        s.source_files = 'SIUtils/Classes/**/*'
+        s.dependency 'YYKit'
+        s.dependency 'SAMKeychain'
+        s.dependency 'YCEasyTool'
+        s.dependency 'AFNetworking'
+    end
+    
+    
 end

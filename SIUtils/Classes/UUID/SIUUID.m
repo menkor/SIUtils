@@ -7,7 +7,7 @@
 //
 
 #import "SIUUID.h"
-#import "SICache.h"
+#import <SAMKeychain/SAMKeychain.h>
 
 @interface SIUUID ()
 
@@ -23,10 +23,11 @@
 
 - (NSString *)uuid {
     if (!_uuid) {
-        _uuid = [[SISafeCache safeCache] objectForKey:@"com.superid.uuid"];
+        NSString *serviceName = [[NSBundle mainBundle] bundleIdentifier];
+        _uuid = [SAMKeychain passwordForService:serviceName account:@"com.superid.uuid"];
         if (!_uuid) {
             _uuid = [[NSUUID UUID] UUIDString];
-            [[SISafeCache safeCache] setObject:_uuid forKey:@"com.superid.uuid"];
+            [SAMKeychain setPassword:_uuid forService:serviceName account:@"com.superid.uuid"];
         }
     }
     return _uuid;
