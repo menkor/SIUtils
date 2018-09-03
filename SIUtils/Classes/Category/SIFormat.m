@@ -34,10 +34,13 @@ NSString *const kSIFormatShortMonthDate = @"shortMonthDate";
 NSString *const kSIFormatInvalidateDate = @"invalidateDate";
 
 NSString *const kSIFormatSecondToMinute = @"secondToMinute";
+
+NSString *const kSIFormatFullTime = @"fullTime";
 //11,111.00
 NSString *const kSIFormatNumber = @"number";
 
 #define kSIFormatTaskTimeFormatDict @{              \
+    kSIFormatFullTime: @"yyyy-MM-dd HH:mm:SS",      \
     kSIFormatModifyTime: @"yyyy-MM-dd HH:mm",       \
     kSIFormatTaskTime: @"yyyy/MM/dd HH:mm",         \
     kSIFormatCNModifyTime: @"yyyy年MM月dd日 HH:mm", \
