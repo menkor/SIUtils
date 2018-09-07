@@ -10,8 +10,8 @@
 
 typedef NS_ENUM(NSUInteger, SIInputValidatorType) {
     SIInputValidatorTypeInt,
-    SIInputValidatorTypeFloat,//2位小数
-    SIInputValidatorTypeDouble,//随便位小数
+    SIInputValidatorTypeFloat,  //2位小数
+    SIInputValidatorTypeDouble, //随便位小数
     SIInputValidatorTypeUsername,
     SIInputValidatorTypeVerifyCode,
     SIInputValidatorTypePhoneNum,
