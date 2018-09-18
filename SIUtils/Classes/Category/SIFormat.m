@@ -51,8 +51,6 @@ NSString *const kSIFormatNumber = @"number";
     kSIFormatInvalidateDate: @"MM月dd日HH:mm",      \
 }
 
-typedef NSString * (^SIFormatGeneralBlock)(id raw, NSString *format);
-
 @interface SIFormat ()
 
 @property (nonatomic, strong) NSMutableDictionary *dict;
@@ -94,7 +92,7 @@ typedef NSString * (^SIFormatGeneralBlock)(id raw, NSString *format);
         }
     };
 
-    SIFormatGeneralBlock general = ^NSString *(id raw, NSString *format) {
+    _general = ^NSString *(id raw, NSString *format) {
         NSDate *date;
         if ([raw isKindOfClass:[NSNumber class]]) {
             NSTimeInterval timeInterval = [raw integerValue] / 1000;
@@ -109,9 +107,10 @@ typedef NSString * (^SIFormatGeneralBlock)(id raw, NSString *format);
         }
         return [date stringFromFormat:format];
     };
+    __weak typeof(self) weak_self = self;
     [kSIFormatTaskTimeFormatDict enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
         _dict[key] = ^NSString *(id raw) {
-            return general(raw, obj);
+            return weak_self.general(raw, obj);
         };
     }];
 

@@ -20,7 +20,7 @@ NSString *SIRequestURLEncode(id value) {
         SISetImage_EscapeSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
         [SISetImage_EscapeSet removeCharactersInString:@"+;&=$,"];
     }
-    value = [value stringByRemovingPercentEncoding];
+    value = [value stringByRemovingPercentEncoding] ?: value;
     return [value stringByAddingPercentEncodingWithAllowedCharacters:SISetImage_EscapeSet];
 }
 

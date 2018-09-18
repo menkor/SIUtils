@@ -10,6 +10,8 @@
 
 #pragma mark - Format
 
+typedef NSString * (^SIFormatGeneralDateBlock)(id raw, NSString *format);
+
 typedef NSString * (^SIFormatBlock)(id raw);
 
 extern NSString *const kSIFormatBirthday; //yyyy年MM月dd日
@@ -39,6 +41,8 @@ extern NSString *const kSIFormatSecondToMinute; //75″ to 1′25″
 @interface SIFormat : NSObject
 
 + (instancetype)sharedInstance;
+
+@property (nonatomic, copy) SIFormatGeneralDateBlock general;
 
 - (SIFormatBlock)formatBlockForKey:(NSString *)key;
 
