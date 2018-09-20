@@ -40,7 +40,7 @@ NSString *const kSIFormatFullTime = @"fullTime";
 NSString *const kSIFormatNumber = @"number";
 
 #define kSIFormatTaskTimeFormatDict @{              \
-    kSIFormatFullTime: @"yyyy-MM-dd HH:mm:SS",      \
+    kSIFormatFullTime: @"yyyy-MM-dd HH:mm:ss",      \
     kSIFormatModifyTime: @"yyyy-MM-dd HH:mm",       \
     kSIFormatTaskTime: @"yyyy/MM/dd HH:mm",         \
     kSIFormatCNModifyTime: @"yyyy年MM月dd日 HH:mm", \
