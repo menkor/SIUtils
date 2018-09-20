@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 typedef NS_ENUM(NSUInteger, SIInputValidatorType) {
-    SIInputValidatorTypeInt,
+    SIInputValidatorTypeNone,
+    SIInputValidatorTypeInt = 100,
     SIInputValidatorTypeFloat,  //2位小数
     SIInputValidatorTypeDouble, //随便位小数
     SIInputValidatorTypeUsername,
