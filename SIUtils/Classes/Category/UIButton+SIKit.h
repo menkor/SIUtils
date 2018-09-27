@@ -10,6 +10,6 @@
 
 @interface UIButton (SILayoutKit)
 
-- (void)si_verticalLayout;
+- (void)si_verticalLayout:(CGFloat)spacing;
 
 @end
