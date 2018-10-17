@@ -59,3 +59,9 @@ extern NSString *const kSIFormatSecondToMinute; //75″ to 1′25″
 - (NSString *)si_format;
 
 @end
+
+@interface NSString (SIFormat)
+
+- (NSString *)si_format;
+
+@end

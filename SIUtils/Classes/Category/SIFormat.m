@@ -156,3 +156,11 @@ NSString *const kSIFormatNumber = @"number";
 }
 
 @end
+
+@implementation NSString (SIFormat)
+
+- (NSString *)si_format {
+    return [self formatForKey:kSIFormatNumber];
+}
+
+@end
