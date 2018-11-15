@@ -81,4 +81,16 @@
     return object;
 }
 
+- (NSMutableAttributedString *)match:(NSString *)key highlightAttr:(NSDictionary *)hightlightAttr defaultAttr:(NSDictionary *)defaultAttr {
+    NSMutableAttributedString *matchContent = [[NSMutableAttributedString alloc] initWithString:self attributes:defaultAttr];
+    NSRange range = NSMakeRange(0, 0);
+    while (range.location != NSNotFound) {
+        range = [self rangeOfString:key options:NSCaseInsensitiveSearch range:NSMakeRange(NSMaxRange(range), self.length - NSMaxRange(range))];
+        if (range.location != NSNotFound) {
+            [matchContent setAttributes:hightlightAttr range:range];
+        }
+    }
+    return matchContent;
+}
+
 @end
