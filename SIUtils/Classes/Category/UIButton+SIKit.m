@@ -12,7 +12,7 @@
 
 - (void)si_verticalLayout:(CGFloat)spacing {
     // the space between the image and text
-    spacing = MAX(3.0, 0);
+    spacing = MAX(3.0, spacing);
 
     // lower the text and push it left so it appears centered
     //  below the image
