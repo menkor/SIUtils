@@ -6,7 +6,6 @@
 //  Copyright © 2017年 SuperId. All rights reserved.
 //
 
-#import <SDWebImage/SDWebImageManager.h>
 #import <UIKit/UIKit.h>
 
 @interface UIImageView (SISetImage)
@@ -16,13 +15,13 @@
 - (void)si_setImageWithURL:(nullable NSString *)url placeholderImage:(nullable UIImage *)placeholder;
 
 - (void)si_setImageWithURL:(nullable NSString *)url
-                 completed:(nullable void (^)(UIImage *_Nullable image, NSError *_Nullable error, SDImageCacheType cacheType, NSURL *_Nullable imageURL))completedBlock;
+                 completed:(nullable void (^)(UIImage *_Nullable image, NSError *_Nullable error, NSInteger cacheType, NSURL *_Nullable imageURL))completedBlock;
 
 - (void)si_setImageWithURL:(nullable NSString *)url
           placeholderImage:(nullable UIImage *)placeholder
-                   options:(SDWebImageOptions)options
-                  progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
-                 completed:(nullable SDExternalCompletionBlock)completedBlock;
+                   options:(NSInteger)options
+                  progress:(void (^)(NSInteger receivedSize, NSInteger expectedSize, NSURL *_Nullable targetURL))progressBlock
+                 completed:(nullable void (^)(UIImage *_Nullable image, NSError *_Nullable error, NSInteger cacheType, NSURL *_Nullable imageURL))completedBlock;
 
 - (void)si_setImageWithVideoURL:(nullable NSString *)url;
 

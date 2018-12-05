@@ -25,7 +25,7 @@ static NSDictionary *_SIInputValidatorRegexMap;
         @(SIInputValidatorTypeDouble): @"^(0*|[1-9][0-9]*)+(\\.[0-9]*)?$",
         @(SIInputValidatorTypeUsername): @"[\u4e00-\u9fa5a-zA-Z]+",
         @(SIInputValidatorTypeVerifyCode): @"[0-9]{0,6}",
-        @(SIInputValidatorTypePhoneNum): @"^1(3[0-9]|4[0-9]|5[0-9]|7[0-9]|8[0-9])\\d{8}$",
+        @(SIInputValidatorTypePhoneNum): @"^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$",
         @(SIInputValidatorTypeEmail): @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}",
         @(SIInputValidatorTypeID): @"^(\\d{14}|\\d{17})(\\d|[xX])$",
         @(SIInputValidatorTypePassword): @"((?=.*[a-zA-Z])(?=.*[0-9])|(?=.*[0-9])(?=.*[@#$%&/=?_.,:;\\-])|(?=.*[a-zA-Z])(?=.*[@#$%&/=?_.,:;\\-])|(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[@#$%&/=?_.,:;\\-])).{6,32}",
