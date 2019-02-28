@@ -14,6 +14,8 @@ static NSString *const kSICacheResouceIdKey = @"ResouceIdKey";
 
 + (instancetype)defaultCache;
 
++ (instancetype)chatMessageCache;
+
 + (instancetype)memmoryCache;
 
 + (instancetype)talkingMemberCache;

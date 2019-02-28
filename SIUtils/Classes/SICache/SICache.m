@@ -17,6 +17,8 @@
 
 #define kSICacheTalkingMemberName @"com.superid.cache.talking.member"
 
+#define kSICacheTalkingChatMessage @"com.superid.cache.talking.message"
+
 @interface SICache ()
 
 @property (nonatomic, strong) YYCache *cache;
@@ -31,6 +33,16 @@
 
     dispatch_once(&once, ^{
         instance = [[self alloc] initWithName:kSICacheDefaultName];
+    });
+    return instance;
+}
+
++ (instancetype)chatMessageCache {
+    static dispatch_once_t once = 0;
+    static id instance = nil;
+
+    dispatch_once(&once, ^{
+        instance = [[self alloc] initWithName:kSICacheTalkingChatMessage];
     });
     return instance;
 }
