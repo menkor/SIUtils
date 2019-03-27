@@ -24,8 +24,16 @@ typedef NS_ENUM(NSUInteger, SIInputValidatorType) {
     SIInputValidatorTypeAllianceCode,
 };
 
+@interface SIInputValidator : NSObject
+
++ (NSString *)regexFor:(SIInputValidatorType)type;
+
+@end
+
 @interface NSString (InputCheck)
 
 - (BOOL)validateWithType:(SIInputValidatorType)type;
+
+- (BOOL)validateWithRegex:(NSString *)regex;
 
 @end
