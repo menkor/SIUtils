@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'SIUtils'
-    s.version          = '0.1.41'
+    s.version          = '0.1.42'
     s.summary          = 'SIUtils.'
     
     # This description is used to generate tags and improve search results.
@@ -46,7 +46,7 @@ Pod::Spec.new do |s|
         ss.dependency 'YYKit'
         ss.dependency 'SAMKeychain'
         ss.dependency 'YCEasyTool'
-        ss.dependency 'AFNetworking'
+        ss.dependency 'AFNetworking/NSURLSession'
         ss.dependency 'SDWebImage'
     end
     
