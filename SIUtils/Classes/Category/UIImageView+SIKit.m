@@ -7,6 +7,7 @@
 //
 
 #import "UIImage+SIUtils.h"
+#import <SDWebImage/SDImageCache.h>
 #import <SDWebImage/SDWebImageManager.h>
 #import <SDWebImage/UIButton+WebCache.h>
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -46,31 +47,29 @@ static inline NSURL *SIKitEncodeUrlString(NSString *url) {
 - (void)si_setImageWithURL:(nullable NSString *)url
           placeholderImage:(nullable UIImage *)placeholder
                    options:(SDWebImageOptions)options
-                  progress:(nullable SDWebImageDownloaderProgressBlock)progressBlock
+                  progress:(nullable SDImageLoaderProgressBlock)progressBlock
                  completed:(nullable SDExternalCompletionBlock)completedBlock {
     [self sd_setImageWithURL:SIKitEncodeUrlString(url) placeholderImage:placeholder options:options progress:progressBlock completed:completedBlock];
 }
 
 - (void)si_setImageWithVideoURL:(NSString *)urlString {
     NSURL *url = SIKitEncodeUrlString(urlString);
-    [[SDWebImageManager sharedManager].imageCache
-        queryCacheOperationForKey:url.absoluteString
-                          options:0
-                             done:^(UIImage *_Nullable image,
-                                    NSData *_Nullable data,
-                                    SDImageCacheType cacheType) {
-                                 if (image) {
-                                     self.image = image;
-                                 } else {
-                                     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                         UIImage *cache = [UIImage thumbnailImageForVideo:url atTime:1];
-                                         [cache saveForUrl:url];
-                                         dispatch_async(dispatch_get_main_queue(), ^{
-                                             self.image = cache;
-                                         });
-                                     });
-                                 }
-                             }];
+    [[SDImageCache sharedImageCache] queryImageForKey:url.absoluteString
+                                              options:0
+                                              context:nil
+                                           completion:^(UIImage *_Nullable image, NSData *_Nullable data, SDImageCacheType cacheType) {
+                                               if (image) {
+                                                   self.image = image;
+                                               } else {
+                                                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                                       UIImage *cache = [UIImage thumbnailImageForVideo:url atTime:1];
+                                                       [cache saveForUrl:url];
+                                                       dispatch_async(dispatch_get_main_queue(), ^{
+                                                           self.image = cache;
+                                                       });
+                                                   });
+                                               }
+                                           }];
 }
 
 @end

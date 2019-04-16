@@ -8,6 +8,7 @@
 
 #import "UIImage+SIUtils.h"
 #import <AVFoundation/AVFoundation.h>
+#import <SDWebImage/SDImageCache.h>
 #import <SDWebImage/SDWebImageManager.h>
 
 @implementation UIImage (SIUtils)
@@ -170,7 +171,7 @@
 }
 
 - (void)saveForUrl:(NSURL *)url {
-    [[SDWebImageManager sharedManager] saveImageToCache:self forURL:url];
+    [[SDImageCache sharedImageCache] storeImage:self imageData:nil forKey:url.absoluteString cacheType:(SDImageCacheTypeDisk)completion:nil];
 }
 
 - (UIImage *)fixOrientation {
