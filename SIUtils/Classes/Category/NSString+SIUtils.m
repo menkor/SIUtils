@@ -44,18 +44,26 @@
     return tmpDir;
 }
 
++ (NSString *)chatCacheLocation {
+    return [self cacheLocationWithName:@"chat"];
+}
+
 + (NSString *)uploadCacheLocation {
     return [self cacheLocationWithName:@"upload"];
 }
 
 - (NSString *)fullCachePath {
-    NSArray<NSString *> *paths = NSSearchPathForDirectoriesInDomains(NSDocumentationDirectory, NSUserDomainMask, YES);
+    NSArray<NSString *> *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [paths.firstObject stringByAppendingPathComponent:self];
 }
 
 - (void)clearCachePath {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self]) {
         [[NSFileManager defaultManager] removeItemAtPath:self.stringByDeletingLastPathComponent error:nil];
+    }
+    NSString *dir = [self stringByDeletingLastPathComponent];
+    if ([[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:nil].count == 0) {
+        [[NSFileManager defaultManager] removeItemAtPath:dir error:nil];
     }
 }
 

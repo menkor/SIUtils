@@ -19,6 +19,8 @@
 
 + (NSString *)uploadCacheLocation;
 
++ (NSString *)chatCacheLocation;
+
 - (NSString *)fullCachePath;
 
 - (void)clearCachePath;
