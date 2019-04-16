@@ -7,7 +7,8 @@
 //
 
 #import "SIFileDirectDownloadTool.h"
-#import <AFNetworking/AFNetworking.h>
+#import <AFNetworking/AFHTTPSessionManager.h>
+#import <AFNetworking/AFURLSessionManager.h>
 
 @implementation SIFileDirectDownloadTool
 
