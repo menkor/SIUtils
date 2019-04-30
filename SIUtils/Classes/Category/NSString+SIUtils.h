@@ -13,9 +13,7 @@
 
 + (NSString *)randomKeyWithLength:(NSUInteger)length;
 
-+ (NSString *)randomStringKeyWithLength:(NSUInteger)length;
-
-+ (NSString *)cacheLocationWithName:(NSString *)name;
++ (NSString *)imageCacheLocation;
 
 + (NSString *)uploadCacheLocation;
 
@@ -24,8 +22,6 @@
 - (NSString *)fullCachePath;
 
 - (void)clearCachePath;
-
-+ (void)clearCacheLocationWithName:(NSString *)name;
 
 - (id)jsonObject;
 

@@ -25,16 +25,6 @@
     return result;
 }
 
-+ (NSString *)randomStringKeyWithLength:(NSUInteger)length {
-    NSUInteger count = length;
-    NSMutableString *result = [NSMutableString stringWithCapacity:count];
-    for (NSUInteger index = 0; index < count; index++) {
-        NSInteger random = arc4random() % 26;
-        [result appendFormat:@"%c", (unichar)(random + 97)];
-    }
-    return result;
-}
-
 + (NSString *)cacheLocationWithName:(NSString *)name {
     NSString *tmpDir = [NSString stringWithFormat:@"/%@/%@", name, [NSString randomKeyWithLength:5]];
     NSString *fullPath = tmpDir.fullCachePath;
@@ -42,6 +32,10 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
     }
     return tmpDir;
+}
+
++ (NSString *)imageCacheLocation {
+    return [self cacheLocationWithName:@"image"];
 }
 
 + (NSString *)chatCacheLocation {
@@ -54,7 +48,7 @@
 
 - (NSString *)fullCachePath {
     NSArray<NSString *> *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    return [paths.firstObject stringByAppendingPathComponent:self];
+    return [NSString stringWithFormat:@"%@/tmp%@", paths.firstObject, self];
 }
 
 - (void)clearCachePath {
