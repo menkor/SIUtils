@@ -53,7 +53,7 @@
 
 - (void)clearCachePath {
     if ([[NSFileManager defaultManager] fileExistsAtPath:self]) {
-        [[NSFileManager defaultManager] removeItemAtPath:self.stringByDeletingLastPathComponent error:nil];
+        [[NSFileManager defaultManager] removeItemAtPath:self error:nil];
     }
     NSString *dir = [self stringByDeletingLastPathComponent];
     if ([[NSFileManager defaultManager] contentsOfDirectoryAtPath:dir error:nil].count == 0) {
