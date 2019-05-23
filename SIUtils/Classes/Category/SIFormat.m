@@ -10,6 +10,17 @@
 #import "NSDate+Format.h"
 #import <UIKit/UIKit.h>
 
+extern NSString *SIFormatRawWithKey(id raw, NSString *key) {
+    if (!raw) {
+        return @"0.00";
+    }
+    SIFormatBlock block = [[SIFormat sharedInstance] formatBlockForKey:key];
+    if (!block) {
+        return raw;
+    }
+    return block(raw);
+}
+
 //yyyy年MM月dd日
 NSString *const kSIFormatBirthday = @"birthday";
 //1MB 1KB 1.11GB
@@ -34,6 +45,8 @@ NSString *const kSIFormatShortMonthDate = @"shortMonthDate";
 NSString *const kSIFormatInvalidateDate = @"invalidateDate";
 
 NSString *const kSIFormatSecondToMinute = @"secondToMinute";
+
+NSString *const kSIFormatTimeDuration = @"timeDuration";
 
 NSString *const kSIFormatFullTime = @"fullTime";
 //11,111.00
@@ -125,42 +138,21 @@ NSString *const kSIFormatNumber = @"number";
         [numberFormatter setPositiveFormat:@"###,##0.00"];
         return [numberFormatter stringFromNumber:@([raw doubleValue])];
     };
+
+    _dict[kSIFormatTimeDuration] = ^NSString *(id raw) {
+        long time = [raw longValue];
+        int second = (int)(time % 60);
+        int minute = (int)(time / 60 % 60);
+        int hour = (int)(time / 3600);
+        if (hour) {
+            return [NSString stringWithFormat:@"%i:%02i:%02i", hour, minute, second];
+        }
+        return [NSString stringWithFormat:@"%02i:%02i", minute, second];
+    };
 }
 
 - (SIFormatBlock)formatBlockForKey:(NSString *)key {
     return _dict[key];
-}
-
-@end
-
-@implementation NSObject (SIFormat)
-
-- (id)formatForKey:(NSString *)key {
-    id value = self;
-    if ([self respondsToSelector:NSSelectorFromString(key)]) {
-        value = [self valueForKey:key];
-    }
-    SIFormatBlock block = [[SIFormat sharedInstance] formatBlockForKey:key];
-    if (block) {
-        return block(value);
-    }
-    return value;
-}
-
-@end
-
-@implementation NSNumber (SIFormat)
-
-- (NSString *)si_format {
-    return [self formatForKey:kSIFormatNumber];
-}
-
-@end
-
-@implementation NSString (SIFormat)
-
-- (NSString *)si_format {
-    return [self formatForKey:kSIFormatNumber];
 }
 
 @end

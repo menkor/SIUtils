@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString *SIFormatRawWithKey(id raw, NSString *key);
+
 #pragma mark - Format
 
 typedef NSString * (^SIFormatGeneralDateBlock)(id raw, NSString *format);
@@ -38,6 +40,8 @@ extern NSString *const kSIFormatNumber; //11,111.00
 
 extern NSString *const kSIFormatSecondToMinute; //75″ to 1′25″
 
+extern NSString *const kSIFormatTimeDuration; //75″ to 01:25
+
 @interface SIFormat : NSObject
 
 + (instancetype)sharedInstance;
@@ -45,23 +49,5 @@ extern NSString *const kSIFormatSecondToMinute; //75″ to 1′25″
 @property (nonatomic, copy) SIFormatGeneralDateBlock general;
 
 - (SIFormatBlock)formatBlockForKey:(NSString *)key;
-
-@end
-
-@interface NSObject (SIFormat)
-
-- (id)formatForKey:(NSString *)key;
-
-@end
-
-@interface NSNumber (SIFormat)
-
-- (NSString *)si_format;
-
-@end
-
-@interface NSString (SIFormat)
-
-- (NSString *)si_format;
 
 @end
