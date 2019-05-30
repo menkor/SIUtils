@@ -1,10 +1,4 @@
 PODS:
-  - AFNetworking (3.2.1):
-    - AFNetworking/NSURLSession (= 3.2.1)
-    - AFNetworking/Reachability (= 3.2.1)
-    - AFNetworking/Security (= 3.2.1)
-    - AFNetworking/Serialization (= 3.2.1)
-    - AFNetworking/UIKit (= 3.2.1)
   - AFNetworking/NSURLSession (3.2.1):
     - AFNetworking/Reachability
     - AFNetworking/Security
@@ -12,20 +6,33 @@ PODS:
   - AFNetworking/Reachability (3.2.1)
   - AFNetworking/Security (3.2.1)
   - AFNetworking/Serialization (3.2.1)
-  - AFNetworking/UIKit (3.2.1):
-    - AFNetworking/NSURLSession
+  - CocoaLumberjack (3.5.3):
+    - CocoaLumberjack/Core (= 3.5.3)
+  - CocoaLumberjack/Core (3.5.3)
+  - Masonry (1.1.0)
   - SAMKeychain (1.5.3)
   - SDWebImage (4.4.2):
     - SDWebImage/Core (= 4.4.2)
   - SDWebImage/Core (4.4.2)
-  - SIUtils (0.1.22):
-    - SIUtils/All (= 0.1.22)
-  - SIUtils/All (0.1.22):
-    - AFNetworking
+  - SIDefine (0.1.42):
+    - CocoaLumberjack
+  - SITheme (0.1.9):
+    - Masonry
+  - SIUtils (0.1.48):
+    - SIUtils/All (= 0.1.48)
+  - SIUtils/All (0.1.48):
+    - AFNetworking/NSURLSession
     - SAMKeychain
     - SDWebImage
+    - SIDefine
+    - SITheme
+    - SIUtils/Config
+    - SIUtils/UUID
     - YCEasyTool
     - YYKit
+  - SIUtils/Config (0.1.48)
+  - SIUtils/UUID (0.1.48):
+    - SAMKeychain
   - YCEasyTool (0.2.10):
     - YCEasyTool/Forever (= 0.2.10)
     - YCEasyTool/Polling (= 0.2.10)
@@ -61,9 +68,13 @@ DEPENDENCIES:
 
 SPEC REPOS:
   "git@git.superid.cn:iOS/SISpecs.git":
+    - SIDefine
+    - SITheme
     - YYKit
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - AFNetworking
+    - CocoaLumberjack
+    - Masonry
     - SAMKeychain
     - SDWebImage
     - YCEasyTool
@@ -74,12 +85,16 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  CocoaLumberjack: 2f44e60eb91c176d471fdba43b9e3eae6a721947
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   SAMKeychain: 483e1c9f32984d50ca961e26818a534283b4cd5c
   SDWebImage: 624d6e296c69b244bcede364c72ae0430ac14681
-  SIUtils: 1a6c45898c2b23a93ecc6f328d758ecce5047e41
+  SIDefine: 61b92c41bed0cc605e397b48199b9213a1bcc6cb
+  SITheme: b89763ad5418f5872ff6f9dda728974e079a9da1
+  SIUtils: d3ea500d99fcbf35fe818100e8c78aff70d3769e
   YCEasyTool: 4bf22a7da56d71c89cf610562430ebfa794b7368
   YYKit: c9c9bbb1f30ce9adfcd3da31c80f250d628aba60
 
 PODFILE CHECKSUM: ecce9059c0dede1b541f0d9474a4e2d8a4230f0e
 
-COCOAPODS: 1.5.0
+COCOAPODS: 1.7.0
