@@ -7,7 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <YYKit/YYLabel.h>
+
+@interface NSObject (SIAutoSize)
+
+- (void)si_widthToFit;
+
+@end
 
 @interface UILabel (SIAutoSize)
 
@@ -20,12 +25,6 @@
 - (void)si_sizeToFit:(CGFloat)width;
 
 - (CGSize)si_size;
-
-@end
-
-@interface YYLabel (SIAutoSize)
-
-- (void)si_widthToFit;
 
 @end
 

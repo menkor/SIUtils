@@ -7,6 +7,8 @@
 //
 
 #import "NSMutableAttributedString+SIMaker.h"
+#import <SITheme/SIColor.h>
+#import <SITheme/SIFont.h>
 
 @implementation NSMutableAttributedString (SIMaker)
 

@@ -8,6 +8,20 @@
 
 #import "UIView+SIAutoSize.h"
 #import <Masonry/Masonry.h>
+#import <YYKit/YYLabel.h>
+
+@implementation NSObject (SIAutoSize)
+
+- (void)si_widthToFit {
+}
+
+@end
+
+@interface YYLabel (SIAutoSize)
+
+- (void)si_widthToFit;
+
+@end
 
 @implementation UILabel (SIAutoSize)
 
