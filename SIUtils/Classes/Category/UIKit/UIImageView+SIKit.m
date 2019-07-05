@@ -22,8 +22,13 @@ NSString *SIRequestURLEncode(id value) {
         SISetImage_EscapeSet = [[NSCharacterSet URLQueryAllowedCharacterSet] mutableCopy];
         [SISetImage_EscapeSet removeCharactersInString:@"+;&=$,"];
     }
-    value = [value stringByRemovingPercentEncoding] ?: value;
-    return [value stringByAddingPercentEncodingWithAllowedCharacters:SISetImage_EscapeSet];
+    NSString *result = [value stringByRemovingPercentEncoding] ?: value;
+    NSString *name = result.lastPathComponent;
+    if (name) {
+        NSString *edcodeName = [name stringByAddingPercentEncodingWithAllowedCharacters:SISetImage_EscapeSet];
+        return [result stringByReplacingOccurrencesOfString:name withString:edcodeName];
+    }
+    return [result stringByAddingPercentEncodingWithAllowedCharacters:SISetImage_EscapeSet];
 }
 
 static inline NSURL *SIKitEncodeUrlString(NSString *url) {

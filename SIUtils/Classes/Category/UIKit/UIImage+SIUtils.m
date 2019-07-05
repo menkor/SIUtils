@@ -8,8 +8,11 @@
 
 #import "UIImage+SIUtils.h"
 #import <AVFoundation/AVFoundation.h>
+#import <Photos/Photos.h>
 #import <SDWebImage/SDImageCache.h>
 #import <SDWebImage/SDWebImageManager.h>
+#import <SIUIKit/SIMessageBox.h>
+#import <YYKit/YYKit.h>
 
 @implementation UIImage (SIUtils)
 + (UIImage *)imageWithView:(UIView *)view {
@@ -241,6 +244,46 @@
     CGContextRelease(ctx);
     CGImageRelease(cgimg);
     return img;
+}
+
+- (NSString *)qrcode {
+    UIImage *srcImage = self;
+    CIContext *context = [CIContext contextWithOptions:nil];
+    CIDetector *detector = [CIDetector detectorOfType:CIDetectorTypeQRCode context:context options:@{CIDetectorAccuracy: CIDetectorAccuracyHigh}];
+    CIImage *image = [CIImage imageWithCGImage:srcImage.CGImage];
+    NSArray *features = [detector featuresInImage:image];
+    CIQRCodeFeature *feature = [features firstObject];
+    return feature.messageString;
+}
+
++ (void)save:(UIImage *)image {
+    [self save:image result:nil];
+}
+
++ (void)save:(UIImage *)image result:(void (^)(NSError *_Nullable error))result {
+    id imageItem = [image imageDataRepresentation];
+    YYImageType type = YYImageDetectType((__bridge CFDataRef)(imageItem));
+    if (type != YYImageTypePNG &&
+        type != YYImageTypeJPEG &&
+        type != YYImageTypeGIF) {
+        imageItem = UIImagePNGRepresentation(image);
+    }
+    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+        PHAssetResourceCreationOptions *options = [[PHAssetResourceCreationOptions alloc] init];
+        [[PHAssetCreationRequest creationRequestForAsset] addResourceWithType:PHAssetResourceTypePhoto data:imageItem options:options];
+    }
+        completionHandler:^(BOOL success, NSError *_Nullable error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (result) {
+                    result(error);
+                }
+                if (success) {
+                    [SIMessageBox showMessage:@"图片已经保存到相册"];
+                } else {
+                    [SIMessageBox showError:error.localizedDescription];
+                }
+            });
+        }];
 }
 
 @end

@@ -10,19 +10,19 @@
 
 @interface NSObject (SIAutoSize)
 
-- (void)si_widthToFit;
+- (CGFloat)si_widthToFit;
 
 @end
 
 @interface UILabel (SIAutoSize)
 
-- (void)si_widthToFit;
+- (CGFloat)si_widthToFit;
 
-- (void)si_widthToFitMax:(CGFloat)max;
+- (CGFloat)si_widthToFitMax:(CGFloat)max;
 
 - (void)si_setNumberOfLine:(NSUInteger)lines;
 
-- (void)si_sizeToFit:(CGFloat)width;
+- (CGSize)si_sizeToFit:(CGFloat)width;
 
 - (CGSize)si_size;
 
@@ -30,10 +30,10 @@
 
 @interface UITextField (SIAutoSize)
 
-- (void)si_widthToFit;
+- (CGFloat)si_widthToFit;
 
-- (void)si_widthToFitWithMinWidth:(CGFloat)min;
+- (CGFloat)si_widthToFitWithMinWidth:(CGFloat)min;
 
-- (void)si_sizeToFit:(CGFloat)width;
+- (CGSize)si_sizeToFit:(CGFloat)width;
 
 @end

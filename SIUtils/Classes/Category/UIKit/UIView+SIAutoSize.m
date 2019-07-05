@@ -12,20 +12,21 @@
 
 @implementation NSObject (SIAutoSize)
 
-- (void)si_widthToFit {
+- (CGFloat)si_widthToFit {
+    return 0;
 }
 
 @end
 
 @interface YYLabel (SIAutoSize)
 
-- (void)si_widthToFit;
+- (CGFloat)si_widthToFit;
 
 @end
 
 @implementation UILabel (SIAutoSize)
 
-- (void)si_widthToFit {
+- (CGFloat)si_widthToFit {
     CGFloat width = ceilf([self.text sizeWithAttributes:@{
                               NSFontAttributeName: self.font
                           }]
@@ -37,14 +38,14 @@
     }
     self.adjustsFontSizeToFitWidth = YES;
     self.minimumScaleFactor = 0.5;
-    width = MIN(width, CGRectGetWidth([UIScreen mainScreen].bounds) - 100);
     self.lineBreakMode = NSLineBreakByTruncatingMiddle;
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(width);
     }];
+    return width;
 }
 
-- (void)si_widthToFitMax:(CGFloat)max {
+- (CGFloat)si_widthToFitMax:(CGFloat)max {
     CGFloat width = ceilf([self.text sizeWithAttributes:@{
                               NSFontAttributeName: self.font
                           }]
@@ -58,19 +59,23 @@
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(width);
     }];
+    return width;
 }
 
-- (void)si_sizeToFit:(CGFloat)width {
+- (CGSize)si_sizeToFit:(CGFloat)width {
     CGSize size = [self.text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.font} context:NULL].size;
+    size = CGSizeMake(ceil(size.width), ceil(size.height));
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.size.mas_equalTo(CGSizeMake(width, ceil(size.height)));
+        make.size.mas_equalTo(size);
     }];
+    return size;
 }
 
 - (CGSize)si_size {
     CGSize size = [self.text sizeWithAttributes:@{
         NSFontAttributeName: self.font
     }];
+    size = CGSizeMake(ceil(size.width), ceil(size.height));
     return size;
 }
 
@@ -99,7 +104,7 @@
 
 @implementation YYLabel (SIAutoSize)
 
-- (void)si_widthToFit {
+- (CGFloat)si_widthToFit {
     CGFloat width = ceilf([self.text sizeWithAttributes:@{
                               NSFontAttributeName: self.font
                           }]
@@ -109,13 +114,14 @@
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(width);
     }];
+    return width;
 }
 
 @end
 
 @implementation UITextField (SIAutoSize)
 
-- (void)si_widthToFit {
+- (CGFloat)si_widthToFit {
     NSString *text = self.text;
     if (text.length == 0) {
         text = self.placeholder;
@@ -125,27 +131,33 @@
     }];
     CGFloat leftWidth = self.leftView.frame.size.width;
     CGFloat rightWidth = self.rightView.frame.size.width;
+    CGFloat width = ceilf(size.width + leftWidth + rightWidth);
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(ceilf(size.width + leftWidth + rightWidth));
+        make.width.mas_equalTo(width);
     }];
+    return width;
 }
 
-- (void)si_widthToFitWithMinWidth:(CGFloat)min {
+- (CGFloat)si_widthToFitWithMinWidth:(CGFloat)min {
     CGSize size = [self.text sizeWithAttributes:@{
         NSFontAttributeName: self.font
     }];
     CGFloat leftWidth = self.leftView.frame.size.width;
     CGFloat rightWidth = self.rightView.frame.size.width;
+    CGFloat width = MAX(ceilf(size.width + leftWidth + rightWidth), min);
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(MAX(ceilf(size.width + leftWidth + rightWidth), min));
+        make.width.mas_equalTo(width);
     }];
+    return width;
 }
 
-- (void)si_sizeToFit:(CGFloat)width {
+- (CGSize)si_sizeToFit:(CGFloat)width {
     CGSize size = [self.text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.font} context:NULL].size;
+    size = CGSizeMake(ceil(size.width), ceil(size.height));
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(size);
     }];
+    return size;
 }
 
 @end

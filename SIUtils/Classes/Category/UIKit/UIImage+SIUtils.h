@@ -85,4 +85,10 @@
 
 - (UIImage *)fixOrientation;
 
+- (NSString *)qrcode;
+
++ (void)save:(UIImage *)image;
+
++ (void)save:(UIImage *)image result:(void (^)(BOOL OK))result;
+
 @end
