@@ -17,6 +17,8 @@
 
 - (CGFloat)si_widthWithFont:(UIFont *)font;
 
+- (NSMutableAttributedString *)match:(NSString *)key highlightAttr:(NSDictionary *)hightlightAttr defaultAttr:(NSDictionary *)defaultAttr;
+
 @end
 
 @interface NSAttributedString (SIKit)
@@ -32,5 +34,7 @@
 - (CGSize)si_size;
 
 - (CGFloat)si_width;
+
+- (void)matchRegex:(NSString *)regexString replace:(NSString * (^)(NSString *capture))replace highlightAttr:(NSDictionary *)hightlightAttr;
 
 @end

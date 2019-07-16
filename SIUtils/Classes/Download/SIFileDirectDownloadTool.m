@@ -9,12 +9,14 @@
 #import "SIFileDirectDownloadTool.h"
 #import <AFNetworking/AFHTTPSessionManager.h>
 #import <AFNetworking/AFURLSessionManager.h>
+#import <SIDefine/SIGlobalMacro.h>
 
 @implementation SIFileDirectDownloadTool
 
 + (void)downLoadWithUrl:(NSURL *)url completionHandler:(void (^)(NSURL *filePath))completionHandler {
     NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
+    weakfy(manager);
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     __block NSURLSessionDownloadTask *downloadTask;
     downloadTask =
@@ -52,6 +54,7 @@
                 if (completionHandler) {
                     completionHandler(filePath);
                 }
+                [weak_manager invalidateSessionCancelingTasks:YES];
             }];
     [downloadTask resume];
 }

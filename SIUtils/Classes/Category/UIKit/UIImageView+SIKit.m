@@ -24,6 +24,11 @@ NSString *SIRequestURLEncode(id value) {
     }
     NSString *result = [value stringByRemovingPercentEncoding] ?: value;
     NSString *name = result.lastPathComponent;
+    NSRange rangeOfQuestion = [result rangeOfString:@"?"];
+    if (rangeOfQuestion.location != NSNotFound) {
+        NSString *trimString = [result substringToIndex:rangeOfQuestion.location];
+        name = trimString.lastPathComponent;
+    }
     if (name) {
         NSString *edcodeName = [name stringByAddingPercentEncodingWithAllowedCharacters:SISetImage_EscapeSet];
         return [result stringByReplacingOccurrencesOfString:name withString:edcodeName];

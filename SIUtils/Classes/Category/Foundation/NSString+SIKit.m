@@ -33,6 +33,20 @@
     return [self si_sizeFitWidth:CGFLOAT_MAX font:font].width;
 }
 
+- (NSMutableAttributedString *)match:(NSString *)key highlightAttr:(NSDictionary *)hightlightAttr defaultAttr:(NSDictionary *)defaultAttr {
+    NSMutableAttributedString *matchContent = [[NSMutableAttributedString alloc] initWithString:self attributes:defaultAttr];
+    if (key.length > 0) {
+        NSRange range = NSMakeRange(0, 0);
+        while (range.location != NSNotFound) {
+            range = [self rangeOfString:key options:NSCaseInsensitiveSearch range:NSMakeRange(NSMaxRange(range), self.length - NSMaxRange(range))];
+            if (range.location != NSNotFound) {
+                [matchContent setAttributes:hightlightAttr range:range];
+            }
+        }
+    }
+    return matchContent;
+}
+
 @end
 
 @implementation NSAttributedString (SIKit)
@@ -69,6 +83,31 @@
     YYTextContainer *titleContarer = [YYTextContainer new];
     titleContarer.size = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
     return [YYTextLayout layoutWithContainer:titleContarer text:self].textBoundingSize.width;
+}
+
+- (void)matchRegex:(NSString *)regexString replace:(NSString * (^)(NSString *capture))replace highlightAttr:(NSDictionary *)hightlightAttr {
+    NSError *regexError;
+    NSString *string = self.string;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:NSRegularExpressionCaseInsensitive error:&regexError];
+    NSArray<NSTextCheckingResult *> *results = [regex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
+    NSMutableAttributedString *one = self;
+    if (results.count == 0) {
+        return;
+    }
+    for (NSTextCheckingResult *result in results.reverseObjectEnumerator) {
+        for (int index = result.numberOfRanges - 1; index >= 1; index--) {
+            NSRange range = [result rangeAtIndex:index];
+            NSString *capture = [string substringWithRange:range];
+            NSString *replacement = capture;
+            if (replace) {
+                replacement = replace(capture);
+            }
+            if (replacement) {
+                NSAttributedString *replacementAttributedString = [[NSAttributedString alloc] initWithString:replacement attributes:hightlightAttr];
+                [one replaceCharactersInRange:range withAttributedString:replacementAttributedString];
+            }
+        }
+    }
 }
 
 @end

@@ -25,6 +25,4 @@
 
 - (id)jsonObject;
 
-- (NSMutableAttributedString *)match:(NSString *)key highlightAttr:(NSDictionary *)hightlightAttr defaultAttr:(NSDictionary *)defaultAttr;
-
 @end

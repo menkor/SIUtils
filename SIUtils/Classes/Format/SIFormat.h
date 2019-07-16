@@ -24,7 +24,7 @@ extern NSString *const kSIFormatModifyTime; //yyyy-MM-dd HH:mm
 
 extern NSString *const kSIFormatFullTime; //yyyy-MM-dd HH:mm:SS
 
-extern NSString *const kSIFormatTaskTime; //yyyy/MM/dd HH:mm
+extern NSString *const kSIFormatUniversalTime; //yyyy/MM/dd HH:mm
 
 extern NSString *const kSIFormatCNModifyTime; //yyyy年MM月dd日 HH:mm
 

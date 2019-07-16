@@ -30,7 +30,7 @@ NSString *const kSIFormatFileSize = @"size";
  */
 NSString *const kSIFormatModifyTime = @"modifyTime";
 
-NSString *const kSIFormatTaskTime = @"taskTime"; //yyyy/MM/dd HH:mm
+NSString *const kSIFormatUniversalTime = @"universalTime"; //yyyy/MM/dd HH:mm
 /*
  yyyy年MM月dd日 HH:mm
  */
@@ -52,10 +52,10 @@ NSString *const kSIFormatFullTime = @"fullTime";
 //11,111.00
 NSString *const kSIFormatNumber = @"number";
 
-#define kSIFormatTaskTimeFormatDict @{              \
+#define kSIFormatUniversalTimeFormatDict @{         \
     kSIFormatFullTime: @"yyyy-MM-dd HH:mm:ss",      \
     kSIFormatModifyTime: @"yyyy-MM-dd HH:mm",       \
-    kSIFormatTaskTime: @"yyyy/MM/dd HH:mm",         \
+    kSIFormatUniversalTime: @"yyyy/MM/dd HH:mm",    \
     kSIFormatCNModifyTime: @"yyyy年MM月dd日 HH:mm", \
     kSIFormatBirthday: @"yyyy年MM月dd日",           \
     kSIFormatShortDate: @"yyyy-MM-dd",              \
@@ -121,7 +121,7 @@ NSString *const kSIFormatNumber = @"number";
         return [date stringFromFormat:format];
     };
     __weak typeof(self) weak_self = self;
-    [kSIFormatTaskTimeFormatDict enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
+    [kSIFormatUniversalTimeFormatDict enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
         _dict[key] = ^NSString *(id raw) {
             return weak_self.general(raw, obj);
         };
