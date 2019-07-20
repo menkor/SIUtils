@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
     s.name             = 'SIUtils'
-    s.version          = '0.1.53'
+    s.version          = '0.1.54'
     s.summary          = 'SIUtils.'
     
     # This description is used to generate tags and improve search results.
@@ -52,6 +52,7 @@ Pod::Spec.new do |s|
         ss.dependency 'SDWebImage'
         ss.dependency 'SIDefine'
         ss.dependency 'SITheme'
+		ss.dependency 'SDAVAssetExportSession'
     end
     
     
