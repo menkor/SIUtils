@@ -27,35 +27,17 @@
 @implementation UILabel (SIAutoSize)
 
 - (CGFloat)si_widthToFit {
-    CGFloat width = ceilf([self.text sizeWithAttributes:@{
-                              NSFontAttributeName: self.font
-                          }]
-                              .width);
-    if (!self.text && self.attributedText) {
-        YYTextContainer *titleContarer = [YYTextContainer new];
-        titleContarer.size = CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX);
-        width = [YYTextLayout layoutWithContainer:titleContarer text:self.attributedText.string].textBoundingSize.width;
-    }
-    self.adjustsFontSizeToFitWidth = YES;
-    self.minimumScaleFactor = 0.5;
-    self.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    [self mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.width.mas_equalTo(width);
-    }];
-    return width;
+    return [self si_widthToFitMax:UIScreen.mainScreen.bounds.size.width];
 }
 
 - (CGFloat)si_widthToFitMax:(CGFloat)max {
-    CGFloat width = ceilf([self.text sizeWithAttributes:@{
-                              NSFontAttributeName: self.font
-                          }]
-                              .width);
+    CGFloat width = [self si_size].width;
     if (width > max) {
         width = max;
         self.adjustsFontSizeToFitWidth = YES;
-        self.minimumScaleFactor = 0.3;
+        self.minimumScaleFactor = 0.5;
     }
-    self.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    self.lineBreakMode = NSLineBreakByTruncatingTail;
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(width);
     }];
@@ -63,8 +45,7 @@
 }
 
 - (CGSize)si_sizeToFit:(CGFloat)width {
-    CGSize size = [self.text boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName: self.font} context:NULL].size;
-    size = CGSizeMake(ceil(size.width), ceil(size.height));
+    CGSize size = [self si_size:width];
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
         make.size.mas_equalTo(size);
     }];
@@ -72,9 +53,18 @@
 }
 
 - (CGSize)si_size {
+    return [self si_size:CGFLOAT_MAX];
+}
+
+- (CGSize)si_size:(CGFloat)width {
     CGSize size = [self.text sizeWithAttributes:@{
         NSFontAttributeName: self.font
     }];
+    if (!self.text && self.attributedText) {
+        YYTextContainer *titleContarer = [YYTextContainer new];
+        titleContarer.size = CGSizeMake(width, CGFLOAT_MAX);
+        size = [YYTextLayout layoutWithContainer:titleContarer text:self.attributedText].textBoundingSize;
+    }
     size = CGSizeMake(ceil(size.width), ceil(size.height));
     return size;
 }

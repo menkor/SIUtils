@@ -9,11 +9,14 @@
 #import "SIVideoExportTool.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Photos/Photos.h>
+#import <SDAVAssetExportSession/SDAVAssetExportSession.h>
 
 @implementation SIVideoExportTool
 
 + (instancetype)tool {
-    return [SIVideoExportTool new];
+    SIVideoExportTool *tool = [SIVideoExportTool new];
+    tool.resolution = CGSizeMake(960, 540);
+    return tool;
 }
 
 /// Export Video / 导出视频
@@ -40,7 +43,11 @@
                                                       // NSLog(@"Info:\n%@",info);
                                                       AVURLAsset *videoAsset = (AVURLAsset *)avasset;
                                                       // NSLog(@"AVAsset URL: %@",myAsset.URL);
-                                                      [self startExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
+                                                      if (self.oldStyle) {
+                                                          [self oldStartExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
+                                                      } else {
+                                                          [self startExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
+                                                      }
                                                   }];
     }
 }
@@ -51,6 +58,85 @@
 }
 
 - (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+    SDAVAssetExportSession *encoder = [SDAVAssetExportSession.alloc initWithAsset:videoAsset];
+    encoder.outputFileType = AVFileTypeMPEG4;
+    AVMutableVideoComposition *videoComposition = [self fixedCompositionWithAsset:videoAsset];
+    CGSize size = [[videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject naturalSize];
+    if (videoComposition.renderSize.width) {
+        // 修正视频转向
+        encoder.videoComposition = videoComposition;
+        size = videoComposition.renderSize;
+    }
+    CGFloat maxSide = MAX(self.resolution.width, self.resolution.height);
+    CGFloat bitRate = 1.28;
+    bitRate = bitRate * (maxSide / 960);
+    //竖屏
+    if (size.width < size.height) {
+        if (size.height > maxSide) {
+            NSInteger other = (maxSide / size.height) * size.width;
+            if (other % 2 == 1) {
+                other--;
+            }
+            size.width = other;
+            size.height = maxSide;
+        }
+    } else {
+        if (size.width > maxSide) {
+            NSInteger other = (maxSide / size.width) * size.height;
+            if (other % 2 == 1) {
+                other--;
+            }
+            size.height = other;
+            size.width = maxSide;
+        }
+    }
+
+    encoder.outputURL = [NSURL fileURLWithPath:self.outputPath];
+    encoder.videoSettings = @{
+        AVVideoCodecKey: AVVideoCodecH264,
+        AVVideoWidthKey: @(size.width),
+        AVVideoHeightKey: @(size.height),
+        AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill,
+        AVVideoCompressionPropertiesKey: @{
+            AVVideoAverageBitRateKey: @(bitRate * 1024 * 1024),
+            AVVideoExpectedSourceFrameRateKey: @(25),
+            AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel,
+        },
+    };
+    encoder.audioSettings = @{
+        AVFormatIDKey: @(kAudioFormatMPEG4AAC),
+        AVNumberOfChannelsKey: @2,
+        AVSampleRateKey: @44100,
+        AVEncoderBitRateKey: @128000,
+    };
+
+    [encoder exportAsynchronouslyWithCompletionHandler:^{
+        if (encoder.status == AVAssetExportSessionStatusCompleted) {
+            //NSLog(@"Video export succeeded");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (success) {
+                    success(self.outputPath);
+                }
+            });
+        } else if (encoder.status == AVAssetExportSessionStatusCancelled) {
+            //NSLog(@"Video export cancelled");
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (failure) {
+                    failure(@"导出任务已被取消", nil);
+                }
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (failure) {
+                    failure(@"视频导出失败", encoder.error);
+                }
+            });
+            //NSLog(@"Video export failed with error: %@ (%d)", encoder.error.localizedDescription, encoder.error.code);
+        }
+    }];
+}
+
+- (void)oldStartExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     // Find compatible presets by video asset.
     NSArray *presets = [AVAssetExportSession exportPresetsCompatibleWithAsset:videoAsset];
 

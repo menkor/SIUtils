@@ -14,7 +14,11 @@
 
 @property (nonatomic, copy) NSString *outputPath;
 
-@property (nonatomic, copy) NSString *presetName;
+@property (nonatomic, copy) NSString *presetName __deprecated;
+
+@property (nonatomic, assign) CGSize resolution;
+
+@property (nonatomic, assign) BOOL oldStyle;
 
 - (void)getVideoOutputPathWithAsset:(id)asset success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure;
 
