@@ -48,6 +48,8 @@ NSString *const kSIFormatSecondToMinute = @"secondToMinute";
 
 NSString *const kSIFormatTimeDuration = @"timeDuration";
 
+NSString *const kSIFormatTimeMinuteDuration = @"minuteDuration";
+
 NSString *const kSIFormatFullTime = @"fullTime";
 //11,111.00
 NSString *const kSIFormatNumber = @"number";
@@ -148,6 +150,19 @@ NSString *const kSIFormatNumber = @"number";
             return [NSString stringWithFormat:@"%i:%02i:%02i", hour, minute, second];
         }
         return [NSString stringWithFormat:@"%02i:%02i", minute, second];
+    };
+    
+    _dict[kSIFormatTimeMinuteDuration] = ^NSString *(id raw) {
+        long totalMinute = [raw longValue];
+        int minute = (int)(totalMinute % 60);
+        int hour = (int)(totalMinute / 60);
+        if (hour) {
+            if (minute == 0) {
+                return [NSString stringWithFormat:@"%i小时", hour];
+            }
+            return [NSString stringWithFormat:@"%i小时%i分", hour, minute];
+        }
+        return [NSString stringWithFormat:@"%i分", minute];
     };
 }
 

@@ -42,6 +42,8 @@ extern NSString *const kSIFormatSecondToMinute; //75″ to 1′25″
 
 extern NSString *const kSIFormatTimeDuration; //75″ to 01:25
 
+extern NSString *const kSIFormatTimeMinuteDuration; //75″ to 1小时25分
+
 @interface SIFormat : NSObject
 
 + (instancetype)sharedInstance;
