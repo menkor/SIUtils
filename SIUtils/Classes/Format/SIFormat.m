@@ -151,17 +151,28 @@ NSString *const kSIFormatNumber = @"number";
         }
         return [NSString stringWithFormat:@"%02i:%02i", minute, second];
     };
-    
+
     _dict[kSIFormatTimeMinuteDuration] = ^NSString *(id raw) {
         long totalMinute = [raw longValue];
         int minute = (int)(totalMinute % 60);
-        int hour = (int)(totalMinute / 60);
-        if (hour) {
-            if (minute == 0) {
-                return [NSString stringWithFormat:@"%i小时", hour];
+        int hour = (int)(totalMinute / 60) % 60;
+        int day = (int)(totalMinute / 60 / 60);
+        if (day > 0) {
+            if (hour > 0) {
+                if (minute == 0) {
+                    return [NSString stringWithFormat:@"%i天%i小时", day, hour];
+                }
+                return [NSString stringWithFormat:@"%i天%i小时%i分", day, hour, minute];
             }
-            return [NSString stringWithFormat:@"%i小时%i分", hour, minute];
+        } else {
+            if (hour > 0) {
+                if (minute == 0) {
+                    return [NSString stringWithFormat:@"%i小时", hour];
+                }
+                return [NSString stringWithFormat:@"%i小时%i分", hour, minute];
+            }
         }
+
         return [NSString stringWithFormat:@"%i分", minute];
     };
 }
