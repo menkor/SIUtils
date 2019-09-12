@@ -20,11 +20,11 @@
 }
 
 /// Export Video / 导出视频
-- (void)getVideoOutputPathWithAsset:(id)asset success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+- (void)getVideoOutputPathWithAsset:(id)asset success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     [self getVideoOutputPathWithAsset:asset presetName:self.presetName ?: AVAssetExportPreset640x480 success:success failure:failure];
 }
 
-- (void)getVideoOutputPathWithAsset:(id)asset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+- (void)getVideoOutputPathWithAsset:(id)asset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     if (!_outputPath) {
         NSParameterAssert(self.outputPath);
         if (failure) {
@@ -53,11 +53,11 @@
 }
 
 /// Deprecated, Use -getVideoOutputPathWithAsset:failure:success:
-- (void)getVideoOutputPathWithAsset:(id)asset completion:(void (^)(NSString *outputPath))completion {
+- (void)getVideoOutputPathWithAsset:(id)asset completion:(void (^)(NSString *outputPath, CGSize outputSize))completion {
     [self getVideoOutputPathWithAsset:asset success:completion failure:nil];
 }
 
-- (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+- (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     SDAVAssetExportSession *encoder = [SDAVAssetExportSession.alloc initWithAsset:videoAsset];
     encoder.outputFileType = AVFileTypeMPEG4;
     AVMutableVideoComposition *videoComposition = [self fixedCompositionWithAsset:videoAsset];
@@ -115,7 +115,7 @@
             //NSLog(@"Video export succeeded");
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (success) {
-                    success(self.outputPath);
+                    success(self.outputPath, size);
                 }
             });
         } else if (encoder.status == AVAssetExportSessionStatusCancelled) {
@@ -136,7 +136,7 @@
     }];
 }
 
-- (void)oldStartExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+- (void)oldStartExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     // Find compatible presets by video asset.
     NSArray *presets = [AVAssetExportSession exportPresetsCompatibleWithAsset:videoAsset];
 
@@ -187,7 +187,7 @@
                     case AVAssetExportSessionStatusCompleted: {
                         NSLog(@"AVAssetExportSessionStatusCompleted");
                         if (success) {
-                            success(self.outputPath);
+                            success(self.outputPath, CGSizeMake(0, 0));
                         }
                     } break;
                     case AVAssetExportSessionStatusFailed: {

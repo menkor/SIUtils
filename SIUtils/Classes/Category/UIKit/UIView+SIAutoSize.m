@@ -107,6 +107,21 @@
     return width;
 }
 
+- (CGFloat)si_widthToFitMax:(CGFloat)max {
+    CGFloat width = ceilf([self.text sizeWithAttributes:@{
+                              NSFontAttributeName: self.font
+                          }]
+                              .width);
+    if (width > max) {
+        width = max;
+    }
+    self.lineBreakMode = NSLineBreakByTruncatingTail;
+    [self mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(width);
+    }];
+    return width;
+}
+
 @end
 
 @implementation UITextField (SIAutoSize)

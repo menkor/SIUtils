@@ -12,6 +12,8 @@
 
 - (CGFloat)si_widthToFit;
 
+- (CGFloat)si_widthToFitMax:(CGFloat)max;
+
 @end
 
 @interface UILabel (SIAutoSize)
