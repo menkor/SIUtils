@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+@class AVMutableVideoComposition;
+@class AVAsset;
 @interface SIVideoExportTool : NSObject
 
 + (instancetype)tool;
@@ -21,5 +22,7 @@
 @property (nonatomic, assign) BOOL oldStyle;
 
 - (void)getVideoOutputPathWithAsset:(id)asset success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure;
+
++ (AVMutableVideoComposition *)fixedCompositionWithAsset:(AVAsset *)videoAsset;
 
 @end

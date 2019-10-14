@@ -60,7 +60,7 @@
 - (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     SDAVAssetExportSession *encoder = [SDAVAssetExportSession.alloc initWithAsset:videoAsset];
     encoder.outputFileType = AVFileTypeMPEG4;
-    AVMutableVideoComposition *videoComposition = [self fixedCompositionWithAsset:videoAsset];
+    AVMutableVideoComposition *videoComposition = [SIVideoExportTool fixedCompositionWithAsset:videoAsset];
     CGSize size = [[videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject naturalSize];
     if (videoComposition.renderSize.width) {
         // 修正视频转向
@@ -165,7 +165,7 @@
             session.outputFileType = [supportedTypeArray objectAtIndex:0];
         }
 
-        AVMutableVideoComposition *videoComposition = [self fixedCompositionWithAsset:videoAsset];
+        AVMutableVideoComposition *videoComposition = [SIVideoExportTool fixedCompositionWithAsset:videoAsset];
         if (videoComposition.renderSize.width) {
             // 修正视频转向
             session.videoComposition = videoComposition;
@@ -216,10 +216,10 @@
 }
 
 /// 获取优化后的视频转向信息
-- (AVMutableVideoComposition *)fixedCompositionWithAsset:(AVAsset *)videoAsset {
++ (AVMutableVideoComposition *)fixedCompositionWithAsset:(AVAsset *)videoAsset {
     AVMutableVideoComposition *videoComposition = [AVMutableVideoComposition videoComposition];
     // 视频转向
-    int degrees = [self degressFromVideoFileWithAsset:videoAsset];
+    int degrees = [SIVideoExportTool degressFromVideoFileWithAsset:videoAsset];
     if (degrees != 0) {
         CGAffineTransform translateToCenter;
         CGAffineTransform mixedTransform;
@@ -260,7 +260,7 @@
 }
 
 /// 获取视频角度
-- (int)degressFromVideoFileWithAsset:(AVAsset *)asset {
++ (int)degressFromVideoFileWithAsset:(AVAsset *)asset {
     int degress = 0;
     NSArray *tracks = [asset tracksWithMediaType:AVMediaTypeVideo];
     if ([tracks count] > 0) {
