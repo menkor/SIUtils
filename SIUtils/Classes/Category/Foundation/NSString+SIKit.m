@@ -20,13 +20,14 @@
     if (self.length == 0) {
         return CGSizeZero;
     }
-    return [self boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
-                              options:NSStringDrawingTruncatesLastVisibleLine |
-                                      NSStringDrawingUsesLineFragmentOrigin |
-                                      NSStringDrawingUsesFontLeading
-                           attributes:@{NSFontAttributeName: font}
-                              context:NULL]
-        .size;
+    CGSize size = [self boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+                                     options:NSStringDrawingTruncatesLastVisibleLine |
+                                             NSStringDrawingUsesLineFragmentOrigin |
+                                             NSStringDrawingUsesFontLeading
+                                  attributes:@{NSFontAttributeName: font}
+                                     context:NULL]
+                      .size;
+    return CGSizeMake(ceilf(size.width), ceilf(size.height));
 }
 
 - (CGFloat)si_widthWithFont:(UIFont *)font {

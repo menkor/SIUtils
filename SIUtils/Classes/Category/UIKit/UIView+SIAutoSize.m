@@ -34,8 +34,6 @@
     CGFloat width = [self si_size].width;
     if (width > max) {
         width = max;
-        self.adjustsFontSizeToFitWidth = YES;
-        self.minimumScaleFactor = 0.5;
     }
     self.lineBreakMode = NSLineBreakByTruncatingTail;
     [self mas_updateConstraints:^(MASConstraintMaker *make) {
