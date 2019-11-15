@@ -257,33 +257,64 @@
 }
 
 + (void)save:(UIImage *)image {
-    [self save:image result:nil];
+    [self save:image origin:NO result:nil];
 }
 
-+ (void)save:(UIImage *)image result:(void (^)(NSError *_Nullable error))result {
-    id imageItem = [image imageDataRepresentation];
-    YYImageType type = YYImageDetectType((__bridge CFDataRef)(imageItem));
-    if (type != YYImageTypePNG &&
-        type != YYImageTypeJPEG &&
-        type != YYImageTypeGIF) {
++ (void)save:(UIImage *)image origin:(BOOL)origin {
+    [self save:image origin:origin result:nil];
+}
+
++ (void)save:(UIImage *)image origin:(BOOL)origin result:(void (^)(NSError *_Nullable error))result {
+    image = [image fixOrientation];
+    id imageItem = nil;
+    if (origin) {
+        imageItem = [image imageDataRepresentation];
+    } else {
         imageItem = UIImagePNGRepresentation(image);
     }
-    [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-        PHAssetResourceCreationOptions *options = [[PHAssetResourceCreationOptions alloc] init];
-        [[PHAssetCreationRequest creationRequestForAsset] addResourceWithType:PHAssetResourceTypePhoto data:imageItem options:options];
-    }
-        completionHandler:^(BOOL success, NSError *_Nullable error) {
+    [self save:imageItem
+        fileURL:nil
+           type:PHAssetResourceTypePhoto
+         result:^(NSError *_Nullable error) {
+             if (result) {
+                 result(error);
+             }
+             if (!error) {
+                 [SIMessageBox showMessage:@"图片已经保存到相册"];
+             } else {
+                 [SIMessageBox showError:error.localizedDescription];
+             }
+         }];
+}
+
++ (void)save:(NSData *)data fileURL:(NSURL *)fileURL type:(PHAssetResourceType)type result:(void (^)(NSError *_Nullable error))result {
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+        if (status == PHAuthorizationStatusAuthorized) {
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                PHAssetResourceCreationOptions *options = [[PHAssetResourceCreationOptions alloc] init];
+                if (data) {
+                    [[PHAssetCreationRequest creationRequestForAsset] addResourceWithType:type data:data options:options];
+                } else if (fileURL) {
+                    options.shouldMoveFile = YES;
+                    [[PHAssetCreationRequest creationRequestForAsset] addResourceWithType:type fileURL:fileURL options:options];
+                }
+            }
+                completionHandler:^(BOOL success, NSError *_Nullable error) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (result) {
+                            result(error);
+                        }
+                    });
+                }];
+        } else {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (result) {
+                    NSError *error = [NSError errorWithDomain:@"" code:-1 userInfo:@{NSLocalizedDescriptionKey: @"未获取相册权限"}];
                     result(error);
                 }
-                if (success) {
-                    [SIMessageBox showMessage:@"图片已经保存到相册"];
-                } else {
-                    [SIMessageBox showError:error.localizedDescription];
-                }
             });
-        }];
+        }
+    }];
 }
 
 @end

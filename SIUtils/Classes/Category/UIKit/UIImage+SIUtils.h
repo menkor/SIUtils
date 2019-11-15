@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+@import Photos;
 
 @interface UIImage (SIUtils)
 /**
@@ -89,6 +90,10 @@
 
 + (void)save:(UIImage *)image;
 
-+ (void)save:(UIImage *)image result:(void (^)(BOOL OK))result;
++ (void)save:(UIImage *)image origin:(BOOL)origin;
+
++ (void)save:(UIImage *)image origin:(BOOL)origin result:(void (^)(BOOL OK))result;
+
++ (void)save:(NSData *)data fileURL:(NSURL *)fileURL type:(PHAssetResourceType)type result:(void (^)(NSError *_Nullable error))result;
 
 @end
