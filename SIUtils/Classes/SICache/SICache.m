@@ -9,6 +9,7 @@
 #import "SICache.h"
 #import <SAMKeychain/SAMKeychain.h>
 #import <YYKit/YYCache.h>
+#import <YYKit/YYDiskCache.h>
 #import <YYKit/YYMemoryCache.h>
 
 #define kSICacheDefaultName @"com.superid.cache.default"
@@ -113,6 +114,14 @@
 
 - (void)removeAllObjects {
     return [self.cache removeAllObjects];
+}
+
+- (void)totalCostWithBlock:(void (^)(NSInteger totalCost))block {
+    if (block) {
+        [self.cache.diskCache totalCostWithBlock:^(NSInteger size) {
+            block(size);
+        }];
+    }
 }
 
 @end

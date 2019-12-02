@@ -57,19 +57,12 @@
     [self getVideoOutputPathWithAsset:asset success:completion failure:nil];
 }
 
-- (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
-    SDAVAssetExportSession *encoder = [SDAVAssetExportSession.alloc initWithAsset:videoAsset];
-    encoder.outputFileType = AVFileTypeMPEG4;
-    AVMutableVideoComposition *videoComposition = [SIVideoExportTool fixedCompositionWithAsset:videoAsset];
-    CGSize size = [[videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject naturalSize];
-    if (videoComposition.renderSize.width) {
-        // 修正视频转向
-        encoder.videoComposition = videoComposition;
-        size = videoComposition.renderSize;
++ (CGSize)fixedSize:(CGSize)some resolution:(CGSize)resolution {
+    if (resolution.width == 0) {
+        resolution = CGSizeMake(960, 540);
     }
-    CGFloat maxSide = MAX(self.resolution.width, self.resolution.height);
-    CGFloat bitRate = 1.28;
-    bitRate = bitRate * (maxSide / 960);
+    CGFloat maxSide = MAX(resolution.width, resolution.height);
+    CGSize size = some;
     //竖屏
     if (size.width < size.height) {
         if (size.height > maxSide) {
@@ -90,6 +83,23 @@
             size.width = maxSide;
         }
     }
+    return size;
+}
+
+- (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+    SDAVAssetExportSession *encoder = [SDAVAssetExportSession.alloc initWithAsset:videoAsset];
+    encoder.outputFileType = AVFileTypeMPEG4;
+    AVMutableVideoComposition *videoComposition = [SIVideoExportTool fixedCompositionWithAsset:videoAsset];
+    CGSize size = [[videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject naturalSize];
+    if (videoComposition.renderSize.width) {
+        // 修正视频转向
+        encoder.videoComposition = videoComposition;
+        size = videoComposition.renderSize;
+    }
+    CGFloat maxSide = MAX(self.resolution.width, self.resolution.height);
+    CGFloat bitRate = 1.28;
+    bitRate = bitRate * (maxSide / 960);
+    size = [SIVideoExportTool fixedSize:size resolution:self.resolution];
 
     encoder.outputURL = [NSURL fileURLWithPath:self.outputPath];
     encoder.videoSettings = @{

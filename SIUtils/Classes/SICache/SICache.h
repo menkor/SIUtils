@@ -38,6 +38,8 @@ static NSString *const kSICacheResouceIdKey = @"ResouceIdKey";
 
 - (void)removeAllObjects;
 
+- (void)totalCostWithBlock:(void (^)(NSInteger totalCost))block;
+
 @end
 
 @interface SISafeCache : NSObject

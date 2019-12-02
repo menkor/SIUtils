@@ -25,4 +25,6 @@
 
 + (AVMutableVideoComposition *)fixedCompositionWithAsset:(AVAsset *)videoAsset;
 
++ (CGSize)fixedSize:(CGSize)some resolution:(CGSize)resolution;
+
 @end
