@@ -156,7 +156,7 @@ NSString *const kSIFormatNumber = @"number";
         long totalMinute = [raw longValue];
         int minute = (int)(totalMinute % 60);
         int hour = (int)(totalMinute / 60) % 60;
-        int day = (int)(totalMinute / 60 / 60);
+        int day = (int)(totalMinute / 60 / 24);
         if (day > 0) {
             if (hour > 0) {
                 if (minute == 0) {
