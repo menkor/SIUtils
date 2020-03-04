@@ -19,6 +19,8 @@
 
 - (NSMutableAttributedString *)match:(NSString *)key highlightAttr:(NSDictionary *)hightlightAttr defaultAttr:(NSDictionary *)defaultAttr;
 
+- (NSArray *)resultForMatch:(NSString *)match;
+
 @end
 
 @interface NSAttributedString (SIKit)

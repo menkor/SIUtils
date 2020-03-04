@@ -48,6 +48,32 @@
     return matchContent;
 }
 
+- (NSArray *)resultForMatch:(NSString *)match {
+    NSString *string = self;
+    NSError *regexError;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:match options:NSRegularExpressionCaseInsensitive error:&regexError];
+    NSArray<NSTextCheckingResult *> *results = [regex matchesInString:string options:0 range:NSMakeRange(0, string.length)];
+    if (results.count == 0) {
+        return nil;
+    }
+    NSTextCheckingResult *result = results.firstObject;
+    if (results.count == 0) {
+        return nil;
+    }
+    NSMutableArray *array = [NSMutableArray array];
+    for (int index = 1; index < result.numberOfRanges; index++) {
+        NSRange range = [result rangeAtIndex:index];
+        if (range.length == 0 || range.location > string.length || NSMaxRange(range) > string.length) {
+            break;
+        }
+        NSString *capture = [string substringWithRange:range];
+        if (capture) {
+            [array addObject:capture];
+        }
+    }
+    return array;
+}
+
 @end
 
 @implementation NSAttributedString (SIKit)

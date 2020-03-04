@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+FOUNDATION_EXPORT NSString *SIRequestURLEncode(id /*NSString or NSNumber*/ value);
+
 @interface UIImageView (SISetImage)
 
 - (void)si_setImageWithURL:(nullable NSString *)url;

@@ -21,7 +21,7 @@ extern NSString *SIFormatRawWithKey(id raw, NSString *key) {
     return block(raw);
 }
 
-//yyyy年MM月dd日
+//yyyy/MM/dd
 NSString *const kSIFormatBirthday = @"birthday";
 //1MB 1KB 1.11GB
 NSString *const kSIFormatFileSize = @"size";
@@ -59,7 +59,7 @@ NSString *const kSIFormatNumber = @"number";
     kSIFormatModifyTime: @"yyyy-MM-dd HH:mm",       \
     kSIFormatUniversalTime: @"yyyy/MM/dd HH:mm",    \
     kSIFormatCNModifyTime: @"yyyy年MM月dd日 HH:mm", \
-    kSIFormatBirthday: @"yyyy年MM月dd日",           \
+    kSIFormatBirthday: @"yyyy/MM/dd",               \
     kSIFormatShortDate: @"yyyy-MM-dd",              \
     kSIFormatShortDotDate: @"yyyy.MM.dd",           \
     kSIFormatShortMonthDate: @"MM月dd日",           \
