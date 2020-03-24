@@ -12,17 +12,24 @@
 
 @implementation NSMutableAttributedString (SIMaker)
 
-- (void)append:(NSString *)text hex:(unsigned long)hex font:(UIFont *)font {
-    if (!text) {
+- (void)append:(NSString *)text color:(UIColor *)color font:(UIFont *)font {
+    if (!text || !color) {
         return;
     }
     NSAttributedString *some = [[NSAttributedString alloc] initWithString:text
                                                                attributes:@{
-                                                                   NSForegroundColorAttributeName: [SIColor colorWithHex:hex],
+                                                                   NSForegroundColorAttributeName: color,
                                                                    NSFontAttributeName: font,
 
                                                                }];
     [self appendAttributedString:some];
+}
+
+- (void)append:(NSString *)text hex:(unsigned long)hex font:(UIFont *)font {
+    if (!text) {
+        return;
+    }
+    [self append:text color:[SIColor colorWithHex:hex] font:font];
 }
 
 - (void)append:(NSString *)text hex:(unsigned long)hex {

@@ -10,6 +10,8 @@
 
 @interface NSMutableAttributedString (SIMaker)
 
+- (void)append:(NSString *)text color:(UIColor *)color font:(UIFont *)font;
+
 - (void)append:(NSString *)text hex:(unsigned long)hex font:(UIFont *)font;
 
 /*
