@@ -34,7 +34,7 @@
     }
     if ([asset isKindOfClass:[PHAsset class]]) {
         PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
-        options.version = PHVideoRequestOptionsVersionOriginal;
+        options.version = PHVideoRequestOptionsVersionCurrent;
         options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
         options.networkAccessAllowed = YES;
         [[PHImageManager defaultManager] requestAVAssetForVideo:asset
