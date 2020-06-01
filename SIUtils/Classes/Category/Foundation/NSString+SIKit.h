@@ -37,6 +37,8 @@
 
 - (CGFloat)si_width;
 
-- (void)matchRegex:(NSString *)regexString replace:(NSString * (^)(NSString *capture))replace highlightAttr:(NSDictionary *)hightlightAttr;
+- (void)matchRegex:(NSString *)regexString replace:(NSString * (^)(NSRange range, NSString *capture))replace highlightAttr:(NSDictionary *)hightlightAttr;
+
+- (void)matchRegex:(NSString *)regexString replace:(NSAttributedString * (^)(NSRange range, NSString *capture))replace;
 
 @end

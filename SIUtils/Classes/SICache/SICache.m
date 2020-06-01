@@ -101,19 +101,19 @@
 }
 
 - (void)objectForKey:(NSString *)key withBlock:(void (^)(NSString *key, id<NSCoding> object))block {
-    return [self.cache objectForKey:key withBlock:block];
+    [self.cache objectForKey:key withBlock:block];
 }
 
 - (void)setObject:(id<NSCoding>)object forKey:(NSString *)key {
-    return [self.cache setObject:object forKey:key];
+    [self.cache setObject:object forKey:key];
 }
 
 - (void)removeObjectForKey:(NSString *)key {
-    return [self.cache removeObjectForKey:key];
+    [self.cache removeObjectForKey:key];
 }
 
 - (void)removeAllObjects {
-    return [self.cache removeAllObjects];
+    [self.cache removeAllObjects];
 }
 
 - (void)totalCostWithBlock:(void (^)(NSInteger totalCost))block {

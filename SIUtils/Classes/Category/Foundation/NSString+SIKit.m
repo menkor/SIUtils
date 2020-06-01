@@ -112,7 +112,22 @@
     return [YYTextLayout layoutWithContainer:titleContarer text:self].textBoundingSize.width;
 }
 
-- (void)matchRegex:(NSString *)regexString replace:(NSString * (^)(NSString *capture))replace highlightAttr:(NSDictionary *)hightlightAttr {
+- (void)matchRegex:(NSString *)regexString replace:(NSString * (^)(NSRange range, NSString *capture))replace highlightAttr:(NSDictionary *)hightlightAttr {
+    [self matchRegex:regexString
+             replace:^NSAttributedString *(NSRange range, NSString *capture) {
+                 NSString *replacement = capture;
+                 if (replace) {
+                     replacement = replace(range, capture);
+                 }
+                 if (replacement) {
+                     NSAttributedString *replacementAttributedString = [[NSAttributedString alloc] initWithString:replacement attributes:hightlightAttr];
+                     return replacementAttributedString;
+                 }
+                 return nil;
+             }];
+}
+
+- (void)matchRegex:(NSString *)regexString replace:(NSAttributedString * (^)(NSRange range, NSString *capture))replace {
     NSError *regexError;
     NSString *string = self.string;
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:regexString options:NSRegularExpressionCaseInsensitive error:&regexError];
@@ -122,16 +137,21 @@
         return;
     }
     for (NSTextCheckingResult *result in results.reverseObjectEnumerator) {
-        for (int index = result.numberOfRanges - 1; index >= 1; index--) {
-            NSRange range = [result rangeAtIndex:index];
+        NSInteger numberOfRanges = result.numberOfRanges;
+        for (NSUInteger idx = numberOfRanges - 1; idx >= 1; --idx) {
+            NSLog(@"matchRegex  rangeAtIndex %@", @(idx));
+            NSRange range = [result rangeAtIndex:idx];
+            if (range.length == 0) {
+                continue;
+                ;
+            }
             NSString *capture = [string substringWithRange:range];
             NSString *replacement = capture;
             if (replace) {
-                replacement = replace(capture);
+                replacement = replace(range, capture);
             }
             if (replacement) {
-                NSAttributedString *replacementAttributedString = [[NSAttributedString alloc] initWithString:replacement attributes:hightlightAttr];
-                [one replaceCharactersInRange:range withAttributedString:replacementAttributedString];
+                [one replaceCharactersInRange:range withAttributedString:replacement];
             }
         }
     }
