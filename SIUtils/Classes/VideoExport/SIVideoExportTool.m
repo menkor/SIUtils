@@ -46,7 +46,11 @@
                                                       if (self.oldStyle) {
                                                           [self oldStartExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
                                                       } else {
-                                                          [self startExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
+                                                          if (self.origin) {
+                                                              [self getOriginVideoPathFromPHAsset:videoAsset asset:asset complete:success failure:failure];
+                                                          } else {
+                                                              [self startExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
+                                                          }
                                                       }
                                                   }];
     }
@@ -89,6 +93,7 @@
 - (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     SDAVAssetExportSession *encoder = [SDAVAssetExportSession.alloc initWithAsset:videoAsset];
     encoder.outputFileType = AVFileTypeMPEG4;
+
     AVMutableVideoComposition *videoComposition = [SIVideoExportTool fixedCompositionWithAsset:videoAsset];
     CGSize size = [[videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject naturalSize];
     if (videoComposition.renderSize.width) {
@@ -96,6 +101,7 @@
         encoder.videoComposition = videoComposition;
         size = videoComposition.renderSize;
     }
+
     CGFloat maxSide = MAX(self.resolution.width, self.resolution.height);
     CGFloat bitRate = 1.28;
     bitRate = bitRate * (maxSide / 960);
@@ -144,6 +150,39 @@
             //NSLog(@"Video export failed with error: %@ (%d)", encoder.error.localizedDescription, encoder.error.code);
         }
     }];
+}
+
+- (void)getOriginVideoPathFromPHAsset:(AVURLAsset *)videoAsset asset:(PHAsset *)asset complete:(void (^)(NSString *filePath, CGSize outputSize))result failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+    NSArray *assetResources = [PHAssetResource assetResourcesForAsset:asset];
+    PHAssetResource *resource;
+
+    for (PHAssetResource *assetRes in assetResources) {
+        if (assetRes.type == PHAssetResourceTypeVideo) {
+            resource = assetRes;
+        }
+    }
+    AVMutableVideoComposition *videoComposition = [SIVideoExportTool fixedCompositionWithAsset:videoAsset];
+    CGSize size = [[videoAsset tracksWithMediaType:AVMediaTypeVideo].firstObject naturalSize];
+    if (videoComposition.renderSize.width) {
+        // 修正视频转向
+        size = videoComposition.renderSize;
+    }
+
+    PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+    options.version = PHImageRequestOptionsVersionCurrent;
+    options.deliveryMode = PHImageRequestOptionsDeliveryModeHighQualityFormat;
+    NSString *fullPath = self.outputPath;
+    [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+    [[PHAssetResourceManager defaultManager] writeDataForAssetResource:resource
+                                                                toFile:[NSURL fileURLWithPath:fullPath]
+                                                               options:nil
+                                                     completionHandler:^(NSError *_Nullable error) {
+                                                         if (error) {
+                                                             failure(@"视频导出失败", error);
+                                                         } else {
+                                                             result(self.outputPath, size);
+                                                         }
+                                                     }];
 }
 
 - (void)oldStartExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {

@@ -31,6 +31,8 @@
 
 - (CGSize)si_sizeFitWidth:(CGFloat)width;
 
+- (CGSize)si_sizeFitSize:(CGSize)size;
+
 - (CGSize)si_sizeFitWidth:(CGFloat)width inset:(UIEdgeInsets)inset;
 
 - (CGSize)si_size;

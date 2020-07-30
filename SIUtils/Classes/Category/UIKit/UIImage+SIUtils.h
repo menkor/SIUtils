@@ -6,8 +6,8 @@
 //  Copyright © 2017年 SuperId. All rights reserved.
 //
 
+#import <Photos/Photos.h>
 #import <UIKit/UIKit.h>
-@import Photos;
 
 @interface UIImage (SIUtils)
 /**

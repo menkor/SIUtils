@@ -90,6 +90,16 @@
     return [self si_sizeFitWidth:width inset:UIEdgeInsetsZero];
 }
 
+- (CGSize)si_sizeFitSize:(CGSize)size {
+    if (self.length == 0) {
+        return CGSizeZero;
+    }
+    YYTextContainer *container = [YYTextContainer new];
+    container.size = size;
+    YYTextLayout *layout = [YYTextLayout layoutWithContainer:container text:self];
+    return layout.textBoundingSize;
+}
+
 - (CGSize)si_sizeFitWidth:(CGFloat)width inset:(UIEdgeInsets)inset {
     if (self.length == 0) {
         return CGSizeZero;
