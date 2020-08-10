@@ -74,6 +74,26 @@
     return array;
 }
 
+//获取拼音首字母(传入汉字字符串, 返回大写拼音首字母)
+- (NSString *)pinyin {
+    //转成了可变字符串
+    NSMutableString *str = [NSMutableString stringWithString:self];
+    //先转换为带声调的拼音
+    CFStringTransform((CFMutableStringRef)str, NULL, kCFStringTransformMandarinLatin, NO);
+    //再转换为不带声调的拼音
+    CFStringTransform((CFMutableStringRef)str, NULL, kCFStringTransformStripDiacritics, NO);
+    NSArray *array = [str componentsSeparatedByString:@" "];
+    NSMutableString *pinYin = [NSMutableString new];
+    [[str componentsSeparatedByString:@" "] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.length > 1) {
+            [pinYin appendFormat:[obj substringToIndex:1]];
+        }
+    }];
+    NSString *allLetter = [[str lowercaseString] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    [pinYin appendFormat:@"#%@", allLetter];
+    return pinYin;
+}
+
 @end
 
 @implementation NSAttributedString (SIKit)

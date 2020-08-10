@@ -54,7 +54,7 @@
                 if (completionHandler) {
                     completionHandler(filePath);
                 }
-                [weak_manager invalidateSessionCancelingTasks:YES];
+                [weak_manager invalidateSessionCancelingTasks:YES resetSession:YES];
             }];
     [downloadTask resume];
 }

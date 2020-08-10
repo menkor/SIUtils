@@ -21,6 +21,8 @@
 
 - (NSArray *)resultForMatch:(NSString *)match;
 
+- (NSString *)pinyin;
+
 @end
 
 @interface NSAttributedString (SIKit)
