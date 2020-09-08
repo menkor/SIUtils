@@ -108,6 +108,10 @@
     [self.cache setObject:object forKey:key];
 }
 
+- (void)setValue:(id)value forKey:(NSString *)key {
+    [self.cache setObject:value forKey:key];
+}
+
 - (void)removeObjectForKey:(NSString *)key {
     [self.cache removeObjectForKey:key];
 }
