@@ -21,7 +21,39 @@
 
 /// Export Video / 导出视频
 - (void)getVideoOutputPathWithAsset:(id)asset success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
-    [self getVideoOutputPathWithAsset:asset success:success failure:failure];
+    [self getVideoOutputPathWithAsset:asset presetName:self.presetName ?: AVAssetExportPreset640x480 success:success failure:failure];
+}
+
+- (void)getVideoOutputPathWithAsset:(id)asset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+    if (!_outputPath) {
+        NSParameterAssert(self.outputPath);
+        if (failure) {
+            failure(@"Please set `outputPath` first", nil);
+        }
+        return;
+    }
+    if ([asset isKindOfClass:[PHAsset class]]) {
+        PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+        options.version = PHVideoRequestOptionsVersionCurrent;
+        options.deliveryMode = PHVideoRequestOptionsDeliveryModeAutomatic;
+        options.networkAccessAllowed = YES;
+        [[PHImageManager defaultManager] requestAVAssetForVideo:asset
+                                                        options:options
+                                                  resultHandler:^(AVAsset *avasset, AVAudioMix *audioMix, NSDictionary *info) {
+                                                      // NSLog(@"Info:\n%@",info);
+                                                      AVURLAsset *videoAsset = (AVURLAsset *)avasset;
+                                                      // NSLog(@"AVAsset URL: %@",myAsset.URL);
+                                                      if (self.oldStyle) {
+                                                          [self oldStartExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
+                                                      } else {
+                                                          if (self.origin) {
+                                                              [self getOriginVideoPathFromPHAsset:videoAsset asset:asset complete:success failure:failure];
+                                                          } else {
+                                                              [self startExportVideoWithVideoAsset:videoAsset presetName:presetName success:success failure:failure];
+                                                          }
+                                                      }
+                                                  }];
+    }
 }
 
 /// Deprecated, Use -getVideoOutputPathWithAsset:failure:success:
@@ -58,7 +90,7 @@
     return size;
 }
 
-- (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
+- (void)startExportVideoWithVideoAsset:(AVURLAsset *)videoAsset presetName:(NSString *)presetName success:(void (^)(NSString *outputPath, CGSize outputSize))success failure:(void (^)(NSString *errorMessage, NSError *error))failure {
     SDAVAssetExportSession *encoder = [SDAVAssetExportSession.alloc initWithAsset:videoAsset];
     encoder.outputFileType = AVFileTypeMPEG4;
 
