@@ -102,12 +102,13 @@
         size = videoComposition.renderSize;
     }
 
-    CGFloat maxSide = MAX(self.resolution.width, self.resolution.height);
-    CGFloat bitRate = 1.28;
-    bitRate = bitRate * (maxSide / 960);
+    CGFloat bitRate = 0.554 * 2.25;
+
     size = [SIVideoExportTool fixedSize:size resolution:self.resolution];
 
     encoder.outputURL = [NSURL fileURLWithPath:self.outputPath];
+    NSInteger expectedSourceFrame = 25;
+    NSInteger maxKeyFrameInterval = 25;
     encoder.videoSettings = @{
         AVVideoCodecKey: AVVideoCodecH264,
         AVVideoWidthKey: @(size.width),
@@ -115,7 +116,8 @@
         AVVideoScalingModeKey: AVVideoScalingModeResizeAspectFill,
         AVVideoCompressionPropertiesKey: @{
             AVVideoAverageBitRateKey: @(bitRate * 1024 * 1024),
-            AVVideoExpectedSourceFrameRateKey: @(25),
+            AVVideoExpectedSourceFrameRateKey: @(expectedSourceFrame),
+            AVVideoMaxKeyFrameIntervalKey: @(maxKeyFrameInterval),
             AVVideoProfileLevelKey: AVVideoProfileLevelH264HighAutoLevel,
         },
     };
