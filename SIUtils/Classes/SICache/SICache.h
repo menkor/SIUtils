@@ -8,8 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const kSICacheResouceIdKey = @"ResouceIdKey";
-
 @interface SICache : NSObject
 
 + (instancetype)defaultCache;
